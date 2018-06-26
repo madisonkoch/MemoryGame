@@ -11,26 +11,49 @@ class App extends Component {
     scores
   };
 
+  //set scores
+
   //rearrange images function
   
-
-  //check for high score function
-
   //set all images to clicks === 0
 
 
 
-    handleClick() {
-      console.log('this is:', this);
-    //If # of clicks on img === 0
-      // clicks+
-      // score+
+    handleClick(clickedFlower) {
+                                            console.log('Clicked: ', clickedFlower);
+      if (clickedFlower.clicks === 0) {
+        //Increase flower click counter
+        clickedFlower.clicks++
+
+        //Increase Score and/or High Score
+        var currentScores = this.state.scores;
+        if (currentScores[0].current === currentScores[0].high){
+          currentScores[0].current++;
+          currentScores[0].high++;
+        }
+        else if (currentScores[0].current < currentScores[0].high){
+          currentScores[0].current++;
+        }
+        else {
+          console.log("houston, we have a problem")
+        }
+        this.setState({
+          currentScores
+        });
+
       // rearrange images
-    //Else
-      // all images clicks === 0
-      // check for high score
-      // score === 0 
-      // rearrange images      
+//    
+      }
+      else {
+        //Reset score
+        var resetScore = this.state.scores;
+        resetScore[0].current = 0;
+        this.setState({
+          resetScore,
+        });
+      }
+//    // all images clicks === 0
+//     // rearrange images      
     }      
   
   render() {
@@ -50,7 +73,7 @@ class App extends Component {
               </header>
               <main className="container">
                 {this.state.flowers.map(flower => (
-                  <div key={flower.id} className="card" style={{ backgroundImage : `url(${flower.image})` }} onClick={(e) => this.handleClick(e)}></div>
+                  <div key={flower.id} className="card" style={{ backgroundImage : `url(${flower.image})` }} onClick={() => this.handleClick(flower)}></div>
                 ))}
               </main>
             </div>
